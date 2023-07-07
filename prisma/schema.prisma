@@ -2,12 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
     previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -49,13 +49,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String          @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?         @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    UserCharacter UserCharacter[]
 }
 
 model VerificationToken {
@@ -64,4 +65,61 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model UserCharacter {
+    id                    Int    @id
+    currentLevel          Int
+    desiredLevel          Int
+    basicAttacksCurrent   Int
+    basicAttacksDesired   Int
+    elementalSkillCurrent Int
+    elementalSkillDesired Int
+    burstSkillCurrent     Int
+    burstSkillDesired     Int
+    userId                String
+    user                  User   @relation(fields: [userId], references: [id])
+
+    @@map("userCharacter")
+}
+
+model Character {
+    id                 Int              @id @default(autoincrement())
+    name               String
+    element            String
+    rarity             String
+    weeklyBossMaterial String
+    normalBossMaterial String
+    specialMaterial    String
+    localSpecialty     String
+    normalAttack       String
+    elementalSkill     String
+    elementalBurst     String
+    ascensionGems      AscensionGem[]
+    talentBooks        TalentBook[]
+    commonMaterials    CommonMaterial[]
+}
+
+model AscensionGem {
+    id          Int       @id @default(autoincrement())
+    tier        String
+    name        String
+    characterId Int
+    character   Character @relation(fields: [characterId], references: [id])
+}
+
+model TalentBook {
+    id          Int       @id @default(autoincrement())
+    tier        String
+    name        String
+    characterId Int
+    character   Character @relation(fields: [characterId], references: [id])
+}
+
+model CommonMaterial {
+    id          Int       @id @default(autoincrement())
+    tier        String
+    name        String
+    characterId Int
+    character   Character @relation(fields: [characterId], references: [id])
 }
