@@ -1,35 +1,52 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require("path");
+const path = require('path');
 
 /** @type {import("eslint").Linter.Config} */
 const config = {
   overrides: [
     {
-      extends: [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      ],
-      files: ["*.ts", "*.tsx"],
+      extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking'],
+      files: ['*.ts', '*.tsx'],
       parserOptions: {
-        project: path.join(__dirname, "tsconfig.json"),
+        project: path.join(__dirname, 'tsconfig.json'),
       },
     },
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: path.join(__dirname, "tsconfig.json"),
+    project: path.join(__dirname, 'tsconfig.json'),
   },
-  plugins: ["@typescript-eslint"],
-  extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'next/core-web-vitals',
+    'airbnb',
+    'airbnb-typescript',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
   rules: {
-    "@typescript-eslint/consistent-type-imports": [
-      "warn",
+    '@typescript-eslint/consistent-type-imports': [
+      'warn',
       {
-        prefer: "type-imports",
-        fixStyle: "inline-type-imports",
+        prefer: 'type-imports',
+        fixStyle: 'inline-type-imports',
       },
     ],
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: ['arrow-function', 'function-declaration', 'function-expression'],
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'import/prefer-default-export': 'off',
+    'no-void': 'off',
   },
+  ignorePatterns: ["lint-staged.config.js"],
 };
 
 module.exports = config;

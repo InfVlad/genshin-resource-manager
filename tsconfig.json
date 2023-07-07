@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "checkJs": true,
@@ -12,6 +12,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "noImplicitAny": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
@@ -24,6 +25,7 @@
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
+    "lint-staged.config.js",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
